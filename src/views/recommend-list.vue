@@ -13,7 +13,7 @@ let recommendlist1 = ref([
             <li v-for="v in recommendlist1" :key="v.id">
                 <div class="list-l">
                     <div class="list-l-img">
-                        <img :src="`/src/assets/img/${v.img_url}`" alt="">
+                       <img :src="`/img/${v.img_url}`" alt="">
                     </div>
                     <div class="list-l-title">
                         <div class="list-l-t">

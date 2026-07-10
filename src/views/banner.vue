@@ -11,7 +11,7 @@ let bannerlist=ref([
     <div class="banner">
       <el-carousel height="620px">
       <el-carousel-item v-for="item in bannerlist" :key="item.id">
-      <img :src="`/src/assets/img/${item.img_url}`" :alt="item.id">
+    <img :src="`/img/${item.img_url}`" :alt="item.id">
       </el-carousel-item>
     </el-carousel>
     </div>
