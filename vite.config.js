@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [vue(), Components({
     resolvers: [ElementPlusResolver()]
   })],
-  
+
   // 核心配置区
   resolve: {
     // 配置路径别名
@@ -16,11 +16,23 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src') // 把 @ 指向 src 目录
     }
   },
-  
+
   // 开发服务器配置
   server: {
     port: 8080,       // 可以把默认的 5173 端口改成你习惯的 8080
     open: true,       // 运行 npm run dev 时，自动在浏览器中打开页面
-    cors: true        // 允许跨域
+    cors: true,       // 允许跨域
+    // 把接口和图片资源转发到后端服务（vue222t-server，默认 3000 端口）。
+    // 这样前端代码里统一写 /api/xxx、/img/xxx 即可 —— 不用硬编码域名，也不会跨域。
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      },
+      '/img': {
+        target: 'http://localhost:3000',
+        changeOrigin: true
+      }
+    }
   }
 })

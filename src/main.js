@@ -6,5 +6,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import '@/assets/css/iconfont.css'
 import '@/assets/css/index.css'
+import '@/assets/css/enhance.css'
 import '@/assets/css/common.css'
+import '@/assets/css/responsive.css'
 createApp(App).use(router).use(ElementPlus).mount('#app')

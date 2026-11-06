@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none">
+  <!-- 戴旅游帽的浣熊头 · 单色简笔画（一支笔画完，无填充色块） -->
+
+  <!-- 头部 -->
+  <circle cx="60" cy="78" r="31" stroke="currentColor" stroke-width="5"/>
+
+  <!-- 耳朵：从帽檐下方两侧露出，贴着脑袋 -->
+  <circle cx="28" cy="62" r="9" stroke="currentColor" stroke-width="5"/>
+  <circle cx="92" cy="62" r="9" stroke="currentColor" stroke-width="5"/>
+
+  <!-- 帽冠：扣在头顶 -->
+  <path d="M30 46 A30 26 0 0 1 90 46" stroke="currentColor"
+        stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- 帽檐：比帽冠宽，向两侧伸出 -->
+  <path d="M22 47 Q60 53 98 47" stroke="currentColor"
+        stroke-width="5" stroke-linecap="round"/>
+
+  <!-- 浣熊眼罩 -->
+  <ellipse cx="47" cy="80" rx="10.5" ry="8" stroke="currentColor" stroke-width="4.5"/>
+  <ellipse cx="73" cy="80" rx="10.5" ry="8" stroke="currentColor" stroke-width="4.5"/>
+
+  <!-- 眼睛 -->
+  <circle cx="47" cy="80" r="2.6" fill="currentColor"/>
+  <circle cx="73" cy="80" r="2.6" fill="currentColor"/>
+
+  <!-- 鼻子 -->
+  <ellipse cx="60" cy="93" rx="3.2" ry="2.4" fill="currentColor"/>
+
+  <!-- 微笑 -->
+  <path d="M60 96 Q56 101 52.5 98" stroke="currentColor" stroke-width="4"
+        stroke-linecap="round" fill="none"/>
+  <path d="M60 96 Q64 101 67.5 98" stroke="currentColor" stroke-width="4"
+        stroke-linecap="round" fill="none"/>
+</svg>

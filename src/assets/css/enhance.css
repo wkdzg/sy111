@@ -1,0 +1,278 @@
+/* ==========================================================================
+   增强样式：动效 + 新增列表卡片的基础布局
+   在 index.css 之后引入，用于覆盖/补充原有全局样式。
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. 主题色
+
+   categoryMeta 会下发每条业务线的 theme（酒店蓝 / 机票青 / 火车橙 …），
+   这里把它透传给 Element Plus。EP 自带 light-3/5/7/8/9 等派生色是写死的，
+   不一起换掉的话 hover 态会串回蓝色，所以用 color-mix 现算一遍。
+   -------------------------------------------------------------------------- */
+.category-page {
+  --el-color-primary-light-3: color-mix(in srgb, var(--el-color-primary) 70%, #fff);
+  --el-color-primary-light-5: color-mix(in srgb, var(--el-color-primary) 50%, #fff);
+  --el-color-primary-light-7: color-mix(in srgb, var(--el-color-primary) 30%, #fff);
+  --el-color-primary-light-8: color-mix(in srgb, var(--el-color-primary) 20%, #fff);
+  --el-color-primary-light-9: color-mix(in srgb, var(--el-color-primary) 8%, #fff);
+  --el-color-primary-dark-2: color-mix(in srgb, var(--el-color-primary) 80%, #000);
+}
+
+/* --------------------------------------------------------------------------
+   2. 路由切换过渡
+   -------------------------------------------------------------------------- */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.26s ease, transform 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* --------------------------------------------------------------------------
+   3. 列表卡片
+
+   原来这套样式挂在 .recommend-list 上，现在列表由 CategoryView 渲染，
+   所以在这里重新给一份，并加上悬停上浮 + 图片缩放。
+
+   注意：选择器必须锁定 .product-list，不能写成 `.r-left ul > li`。
+   Element Plus 的分页内部结构是 .el-pager > li，而分页就在 .r-left 里面，
+   宽泛的 `ul > li` 会把分页按钮一起命中，撑成 150px 的竖条。
+   -------------------------------------------------------------------------- */
+.category-page .product-list > li {
+  display: flex;
+  background-color: #f4f6f9;
+  padding: 10px;
+  margin-bottom: 10px;
+  min-height: 150px;
+  border-radius: 6px;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.3s ease, background-color 0.3s ease;
+  will-change: transform;
+}
+
+.category-page .product-list > li:hover {
+  transform: translateY(-3px);
+  background-color: #fff;
+  box-shadow: 0 12px 28px rgba(15, 30, 60, 0.1);
+}
+
+/* 分页：重置掉可能被列表样式带偏的盒子属性 */
+.list-pagination {
+  margin-top: 16px;
+}
+
+.list-pagination .el-pager li {
+  min-width: 32px;
+  height: 32px;
+  line-height: 32px;
+  margin-bottom: 0;
+  padding: 0;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 14px;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.list-pagination .el-pager li:hover {
+  transform: translateY(-1px);
+  color: var(--el-color-primary);
+}
+
+.list-pagination .el-pager li.is-active {
+  background: var(--el-color-primary);
+  color: #fff;
+}
+
+.list-pagination .btn-prev,
+.list-pagination .btn-next {
+  min-width: 32px;
+  height: 32px;
+}
+
+/* 价格区的小字 */
+.list-r-p .price {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.list-r-p .price-unit {
+  font-size: 12px;
+  font-weight: 400;
+  color: #909399;
+}
+
+/* 描述与信息行 */
+.list-l-title .desc {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 400;
+  color: #606266;
+  line-height: 1.6;
+}
+
+/* 标签间距 */
+.list-l-tag .el-tag {
+  margin: 3px 6px 3px 0;
+}
+
+/* 卡片左侧图片固定比例，避免不同图源把行高撑得参差不齐 */
+.category-page .list-l-img {
+  flex: 0 0 200px;
+  align-self: stretch;
+}
+
+.category-page .list-l-img img {
+  width: 100%;
+  height: 100%;
+  min-height: 128px;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   4. 搜索条
+
+   第一个格子里放了个重置按钮，需要相对定位。
+   -------------------------------------------------------------------------- */
+.searchlist-item {
+  position: relative;
+}
+
+/* 聚焦时整格上浮一点点，配合 focus-within 的底部高亮 */
+.searchlist-item {
+  transition: background-color 0.25s ease;
+}
+
+.searchlist-item:focus-within {
+  background-color: #fbfdff;
+}
+
+/*
+ * Element Plus 的 daterange 选择器自带 360px 固定宽度，
+ * 放在 grid 单元格里会溢出被截断，这里让它跟着格子走，并把字号收一点。
+ */
+.search-box .el-date-editor {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.search-box .el-date-editor .el-range-input {
+  font-size: 13px;
+}
+
+.search-box .el-date-editor .el-range-separator {
+  padding: 0 4px;
+}
+
+/* --------------------------------------------------------------------------
+   5. 通用微交互
+   -------------------------------------------------------------------------- */
+
+/* 侧边栏菜单项：悬停右移 + 主题色 */
+.aside .el-menu-item {
+  transition: background-color 0.25s ease, color 0.25s ease, padding-left 0.25s ease;
+}
+
+.aside .el-menu-item:hover {
+  padding-left: 26px;
+}
+
+.aside .el-menu-item:hover .iconfont {
+  transform: scale(1.18);
+  color: var(--el-color-primary);
+}
+
+.aside .el-menu-item .iconfont {
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+}
+
+/* 按钮：按下时轻微回弹 */
+.el-button {
+  transition: transform 0.18s ease, box-shadow 0.24s ease, background-color 0.24s ease,
+    border-color 0.24s ease, color 0.24s ease;
+}
+
+.el-button:not(.is-disabled):active {
+  transform: scale(0.96);
+}
+
+.el-button--primary:not(.is-disabled):hover {
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--el-color-primary) 35%, transparent);
+}
+
+/* 卡片式元素统一悬停阴影 */
+.order-card,
+.el-card {
+  will-change: transform;
+}
+
+/* 空状态淡入 */
+.el-empty {
+  animation: fade-up 0.4s ease both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 头像 / 图标悬停 */
+.header-right .el-link {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.header-right .el-link:hover {
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   6. 滚动条
+   -------------------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 8px;
+  background-clip: content-box;
+  background-color: rgba(144, 147, 153, 0.35);
+  transition: background-color 0.24s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(144, 147, 153, 0.65);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   7. 无障碍：尊重系统的「减少动态效果」设置
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

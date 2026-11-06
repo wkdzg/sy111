@@ -1,0 +1,503 @@
+/* ==========================================================================
+   响应式全局样式（在 main.js 中最后引入，用于覆盖 index.css 的写死宽度）
+   目标：桌面端居中、不锁死宽度；移动端（≤768px）自动堆叠 / 侧边栏变抽屉。
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* 桌面端：把原来写死的 1380/1300 宽度改成「居中且自适应」 */
+.el-header {
+  min-width: 0 !important;
+  /* 与固定顶栏高度对齐，避免内容被顶栏遮住 */
+  height: 76px !important;
+  /* 顶栏底色，避免 logo 左侧露出白边 */
+  background-color: var(--brand-panel) !important;
+}
+
+.headerNav,
+.searchlist,
+.topfilter,
+.recommend {
+  width: 100% !important;
+  max-width: 1380px;
+  margin: 0 auto;
+}
+
+/* 顶栏：logo 在流内，搜索框与右侧按钮均为固定定位，互不干扰 */
+.headerNav {
+  position: fixed !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: 76px !important;
+  padding: 0 28px !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+/* logo：修正原本被撑成 100px 高、100% 宽的问题，并放大 */
+.header-logo {
+  display: flex;
+  align-items: center;
+  flex: none;
+  height: 100%;
+}
+.header-logo img {
+  height: 56px !important;
+  width: auto !important;
+  max-width: none !important;
+}
+
+/* 搜索框：固定定位相对视口居中（避开左侧侧边栏偏移） */
+.header-search {
+  position: fixed;
+  left: 50%;
+  top: 24px;
+  transform: translateX(-50%);
+  width: 440px;
+  max-width: 40vw;
+  flex: none;
+  margin: 0;
+  z-index: 1000;
+}
+
+/* 桌面端默认隐藏汉堡按钮（仅在移动端显示） */
+.menu-toggle {
+  display: none;
+}
+
+/* 右侧按钮区：靠右 */
+/* 右侧按钮组：绝对定位固定在顶栏右侧，避免被挤出视口 */
+/* 右侧按钮组：固定定位贴右，脱离文档流，不会被挤压 */
+.header-right {
+  position: fixed;
+  right: 56px;
+  top: 0;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0;
+  margin: 0;
+  width: auto;
+  max-width: none;
+  white-space: nowrap;
+  z-index: 1002;
+}
+
+/* 三个按钮间距收紧，整体往左收一点 */
+.header-right .el-link {
+  margin: 0 10px !important;
+}
+
+.header-right .order-entry {
+  margin-left: 0 !important;
+}
+
+/* ============================ 移动端（≤768px） ============================ */
+@media (max-width: 768px) {
+  .category-page,
+  .orders-page {
+    padding: 0 12px;
+  }
+
+  /* 顶栏：取消固定定位、允许换行，搜索框占满整行 */
+  .el-header {
+    height: auto !important;
+  }
+  .headerNav {
+    position: static !important;
+    flex-wrap: wrap;
+    align-items: center;
+    height: auto !important;
+    padding: 8px 12px !important;
+    gap: 8px;
+  }
+  .menu-toggle {
+    order: 0;
+    display: inline-flex;
+  }
+  .header-logo {
+    order: 1;
+    flex: none !important;
+  }
+  .header-logo img {
+    height: 44px !important;
+    max-width: 180px !important;
+  }
+  .header-right {
+    order: 2;
+    margin-left: auto;
+    gap: 4px;
+    flex: none !important;
+  }
+  .header-right .el-link {
+    margin: 0 8px;
+  }
+  .header-search {
+    order: 3;
+    flex: 1 1 100%;
+    margin: 0;
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    display: block !important;
+  }
+  .header-search .el-input {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  /* 搜索条：每列独占一行 */
+  .searchlist {
+    grid-template-columns: 1fr !important;
+  }
+  .searchlist-item {
+    margin-left: 0;
+  }
+
+  /* 筛选区：每组整体排列，两列自适应 */
+  .topfilter {
+    display: flex !important;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+  }
+  .topfilter .filter-group {
+    flex: 1 1 42%;
+    min-width: 140px;
+    flex-wrap: nowrap;
+  }
+  /* 星级价格按钮多，独占整行并允许按钮内部换行 */
+  .topfilter .filter-group:first-child {
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+  }
+  .topfilter .filter-group:first-child .topfilter-price {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .topfilter h5 {
+    width: auto;
+    text-align: left;
+  }
+
+  /* 推荐区：左列表 + 右 banner 堆叠，banner 在下方 */
+  .recommend {
+    flex-wrap: wrap;
+  }
+  .recommend .r-left,
+  .recommend .r-right {
+    width: 100% !important;
+  }
+  .recommend .r-right {
+    margin-top: 12px;
+  }
+  .banner {
+    width: 100% !important;
+    height: 320px !important;
+  }
+  .el-carousel {
+    height: 320px !important;
+  }
+
+  /* 列表卡片：整体纵向堆叠 */
+  .product-list > li {
+    flex-direction: column;
+  }
+  .category-page .list-l {
+    flex-direction: column;
+  }
+  .category-page .list-l-img {
+    flex: 0 0 auto !important;
+    width: 100% !important;
+    height: 180px !important;
+  }
+  .list-r {
+    border-left: none !important;
+    border-top: 1px solid #dadada;
+    text-align: left !important;
+    align-items: flex-start;
+    padding-top: 10px;
+  }
+  .list-r-c {
+    justify-content: flex-start !important;
+  }
+  .list-r-stat {
+    align-items: flex-start !important;
+  }
+  .actions {
+    justify-content: flex-start !important;
+  }
+
+  /* 骨架屏同步堆叠 */
+  .skeleton-card {
+    flex-direction: column;
+  }
+  .sk-img {
+    width: 100% !important;
+    height: 160px !important;
+  }
+
+  /* 详情弹窗在手机上占满 */
+  .el-dialog {
+    width: 92% !important;
+    max-width: 640px;
+  }
+
+  /* 侧边栏改为抽屉：默认隐藏，点汉堡滑出 */
+  .aside {
+    position: static !important;
+    width: 0 !important;
+  }
+  .aside-list {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 220px !important;
+    z-index: 1200;
+    background: #fff;
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.12);
+    transform: translateX(-100%);
+    transition: transform 0.28s ease;
+  }
+  .aside.is-open .aside-list {
+    transform: translateX(0);
+  }
+  .drawer-mask {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+    z-index: 1100;
+  }
+}
+
+/* ==================================================================
+ * 品牌视觉：淡米色纸底 + 45° 斜铺浣熊头线稿水印
+ *   --brand-paper  页面内容区（淡，与 logo 底色 #F9F1DE 一致）
+ *   --brand-panel  顶栏 / 左侧栏（稍深一档，形成层次）
+ * ================================================================== */
+:root {
+  --brand-paper: #f9f1de;      /* 页面底色（淡） */
+  --brand-panel: #f3e9d4;      /* 顶栏 + 侧栏（深一档） */
+  --brand-ink: #d8c6a3;        /* 水印描边 */
+}
+
+html,
+body {
+  background-color: var(--brand-paper);
+}
+
+.el-main {
+  background-color: var(--brand-paper);
+  background-image: url("../img/raccoon-watermark.png");
+  background-repeat: repeat;
+  background-size: 250px 250px;
+}
+
+/* 顶栏：稍深米色 */
+.headerNav {
+  background-color: var(--brand-panel) !important;
+}
+
+/* 左侧栏：稍深米色（含 el-menu 默认白底一起覆盖） */
+.aside,
+.aside-list,
+.aside .el-menu,
+.aside-menu {
+  background-color: var(--brand-panel) !important;
+}
+
+/* 商品卡片在米黄底上做白卡，保证可读性 */
+li.card {
+  background: #fff !important;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(150, 125, 80, 0.10);
+}
+
+/* ==================================================================
+ * 品牌主色：绿色（取自 logo，替代 Element Plus 默认蓝 #409EFF）
+ * 业务线页面由后端 theme 注入，这里是全局兜底（订单页等）
+ * ================================================================== */
+:root {
+  --el-color-primary: #5f8b3e;
+  --el-color-primary-light-3: #8fae78;
+  --el-color-primary-light-5: #afc59f;
+  --el-color-primary-light-7: #cfdcc5;
+  --el-color-primary-light-8: #dfe8d8;
+  --el-color-primary-light-9: #eff3ec;
+  --el-color-primary-dark-2: #4c6f32;
+}
+
+/* 筛选按钮：绿系描边（替代默认的冷灰蓝） */
+.topfilter .el-button {
+  border-color: var(--el-color-primary-light-7);
+  color: var(--el-color-primary-dark-2);
+  background-color: #fff;
+}
+.topfilter .el-button:hover {
+  background-color: var(--el-color-primary) !important;
+  border-color: var(--el-color-primary) !important;
+  color: #fff !important;
+}
+
+/* 全局边框色改暖，避免冷灰蓝在米色底上发青 */
+:root {
+  --el-border-color: #ddd6c4;
+  --el-border-color-light: #e6e0cf;
+  --el-border-color-lighter: #efeada;
+  --el-border-color-extra-light: #f4f0e4;
+}
+
+/* 滚动条：改绿系，避免默认的深灰蓝在米色底上突兀 */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #f4ecdb;
+}
+::-webkit-scrollbar-thumb {
+  background: #c6dca8;
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a3c47a;
+}
+
+/* ==================================================================
+ * 搜索表单：输入区去掉白底，与页面米色底融为一体
+ * ================================================================== */
+.searchlist-item {
+  background-color: transparent !important;
+  border-color: #ddd6c4 !important;
+}
+.search-box input {
+  background-color: transparent !important;
+}
+.search-box .el-input__wrapper,
+.search-box .el-date-editor.el-input__wrapper,
+.search-box .el-date-editor--daterange {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.search-box .el-range-input {
+  background-color: transparent !important;
+}
+.search-box label {
+  color: #8a8070 !important;
+}
+
+/* ==================================================================
+ * 筛选条件：由「每项一行」改为横向流式排列，更紧凑
+ * ================================================================== */
+.topfilter {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  grid-template-columns: none !important;
+  padding: 8px 0;
+}
+.topfilter > div {
+  border-bottom: none !important;
+  padding: 2px 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.topfilter h5 {
+  margin: 0 !important;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7d7263;
+  text-align: left !important;
+  line-height: 1.6 !important;
+  white-space: nowrap;
+}
+.topfilter-price {
+  margin-right: 6px;
+}
+.topfilter .el-button {
+  margin: 0 4px 0 0 !important;
+}
+
+/* 侧栏宽度跟随 el-aside 的 :width（index.css 里写死了 200px，导致收起时宽度不变） */
+.aside {
+  width: var(--el-aside-width, 210px) !important;
+  transition: width 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ==================================================================
+ * 侧栏：小浣熊主题图标（绿色描边，比原图标略大）
+ * ================================================================== */
+.aside-menu .menu-icon {
+  width: 26px !important;
+  height: 26px !important;
+  flex: none;
+  margin-right: 10px;
+  color: #5f8b3e;
+  transition: color 0.22s ease;
+}
+
+.aside-menu .el-menu-item:hover .menu-icon {
+  color: #4c6f32;
+}
+
+.aside-menu .el-menu-item.is-active .menu-icon {
+  color: #3f6129;
+}
+
+/* 收起时图标居中 */
+.aside-menu.el-menu--collapse .menu-icon {
+  margin-right: 0;
+}
+
+/* 带耳朵的搜索图标：放大一点，让两只小耳朵看得清 */
+.headerNav .el-input-group__append .el-icon {
+  font-size: 19px;
+}
+.searchlist-submit .el-button .el-icon {
+  font-size: 26px;
+}
+
+/* 左侧栏菜单项：透明底，露出侧栏米色；选中项保留浅绿 */
+.aside .el-menu-item {
+  background-color: transparent !important;
+}
+.aside .el-menu-item:hover {
+  background-color: rgba(95, 139, 62, 0.08) !important;
+}
+.aside .el-menu-item.is-active {
+  background-color: var(--el-color-primary-light-9) !important;
+}
+
+/* 侧栏顶部折叠按钮区：与侧栏同色，避免出现浅灰蓝块 */
+.aside-toggle,
+.aside-list {
+  background-color: var(--brand-panel) !important;
+}

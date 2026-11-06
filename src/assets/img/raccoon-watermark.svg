@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- 小浣熊头像 · 闭眼微笑款 · 45° 斜铺水印 -->
+  <g transform="translate(100,100) rotate(-45) scale(0.70) translate(-90,-100)"
+     stroke="#F1E8D3" fill="none" stroke-linecap="round" stroke-linejoin="round">
+
+    <!-- 头部：圆润饱满脸 -->
+    <ellipse cx="90" cy="100" rx="56" ry="50" stroke-width="5.5"/>
+
+    <!-- 左耳 + 耳窝 -->
+    <circle cx="48" cy="54" r="19" stroke-width="5.5"/>
+    <circle cx="46" cy="50" r="9" stroke-width="4"/>
+
+    <!-- 右耳 + 耳窝 -->
+    <circle cx="132" cy="54" r="19" stroke-width="5.5"/>
+    <circle cx="134" cy="50" r="9" stroke-width="4"/>
+
+    <!-- 额头两点（眉点） -->
+    <circle cx="74" cy="66" r="3" fill="#F1E8D3" stroke="none"/>
+    <circle cx="106" cy="66" r="3" fill="#F1E8D3" stroke="none"/>
+
+    <!-- 连体眼罩：厚实横跨整脸，两端饱满、跨鼻梁不断 -->
+    <path d="M34 100
+             C 34 88, 48 82, 64 84
+             C 74 85, 82 88, 90 88
+             C 98 88, 106 85, 116 84
+             C 132 82, 146 88, 146 100
+             C 146 112, 132 116, 116 114
+             C 106 113, 98 109, 90 109
+             C 82 109, 74 113, 64 114
+             C 48 116, 34 112, 34 100 Z"
+          stroke-width="4.5"/>
+
+    <!-- 闭眼：向下弯的弧（安静微笑） -->
+    <path d="M55 97 Q 62 104 69 97" stroke-width="4"/>
+    <path d="M111 97 Q 118 104 125 97" stroke-width="4"/>
+
+    <!-- 鼻子：眼罩下缘中央的小三角 -->
+    <path d="M90 108 C 86 109, 84 112, 87 115 L 93 115 C 96 112, 94 109, 90 108 Z"
+          fill="#F1E8D3" stroke="none"/>
+
+    <!-- 嘴巴：小小微笑 -->
+    <path d="M84 120 Q 90 125 96 120" stroke-width="4"/>
+
+    <!-- 两侧胡须短线 -->
+    <path d="M28 104 L 20 102" stroke-width="3.5"/>
+    <path d="M28 111 L 20 112" stroke-width="3.5"/>
+    <path d="M152 104 L 160 102" stroke-width="3.5"/>
+    <path d="M152 111 L 160 112" stroke-width="3.5"/>
+
+  </g>
+</svg>
